@@ -80,7 +80,13 @@
                                 $fields = DB::table('signupfields')->where('published_status' , 'published')->where('delete_Status' , 'active')->orderby('order' , 'asc')->get();
                             @endphp
                             @foreach($fields as $r)
-                            <label>{{ $r->name }}:</label> <b>{{ DB::Table('userfields')->where('signup_parent' , $r->id)->where('user_id' , $data->id)->get()->first()->value }}</b></br>
+                            <label>{{ $r->name }}:</label> <b> 
+                                @if(DB::Table('userfields')->where('signup_parent' , $r->id)->where('user_id' , $data->id)->get()->count() > 0)
+
+                                {{ DB::Table('userfields')->where('signup_parent' , $r->id)->where('user_id' , $data->id)->get()->first()->value }}
+                                @endif
+
+                            </b></br>
                             @endforeach
                             {{ $data->age_group }}</b><br>
                             

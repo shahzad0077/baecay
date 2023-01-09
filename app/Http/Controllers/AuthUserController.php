@@ -28,6 +28,7 @@ use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
 use Session;
+use Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 class AuthUserController extends Controller
@@ -688,52 +689,45 @@ class AuthUserController extends Controller
     public function login(Request $request)
     {   
      
-        $input = $request->all();
-        $this->validate($request, [
-            'email' => 'required',
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:255|exists:users',
             'password' => 'required',
         ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()->all()]);
+        }
 
-
-
-        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+        if(auth()->attempt(array('email' => $request->email, 'password' => $request->password)))
         {   
 
             if(Auth::user()->user_type == 'customer')
             {
-
                 if (Auth::user()->active == 1) {
-
-
-                    // if(Auth::user()->email_verify == 1)
+                    // $redirecturl =  session()->get('redirecturl');
+                    // if(!empty($redirecturl))
                     // {
-                        $redirecturl =  session()->get('redirecturl');
-                        if(!empty($redirecturl))
-                        {
-                            return Redirect::to($redirecturl);
-                        }
-                        else
-                        {
-                            return redirect()->route('user.findpeople');
-                        }
-                    // }else{
-                    //     Auth::logout();
-                    //     return redirect()->back()->with('emailverify', $input['email']);
+                    //     return Redirect::to($redirecturl);
                     // }
+                    // else
+                    // {
+                        
+                    // }
+                    return 2;
+                    // return redirect()->route('user.findpeople');
                 }else{
                     Auth::logout();
-                    return redirect()->back()->with('warning', 'Your Account Is Banned Due To Some Reason');
+                    return 1;
                 }
             }
             else
             {
                 Auth::logout();
-                return redirect()->back()->with('message', 'This Portal Is Only For Customers Use Seller Portal for Your Account');
+                return 4;
             }
         }
         else
         {
-            return redirect()->back()->with('warning', 'Email or Password are Incorrect');
+            return 3;
         }
           
     }

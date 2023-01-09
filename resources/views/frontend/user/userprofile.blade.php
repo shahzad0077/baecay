@@ -160,9 +160,11 @@
             <div class="widget widget-gallery">
                 <div class="widget-heading">
                     <h3 class="widget-title">Photo Gallery</h3>
+                    @if(DB::table('mediaimages')->where('user_id' , $data->id)->count() > 4)
                     <div class="dropdown">
                         <a href="{{ url('profile/details/gallery') }}">View All</a>
                     </div>
+                    @endif
                 </div>
                 <ul class="photo-list gutters-20 zoom-gallery">
                     @foreach(DB::table('mediaimages')->where('user_id' , $data->id)->limit(6)->get() as $r)
@@ -247,7 +249,7 @@
             <p>Click Place for Select</p>
             <div class="row button-boxes">
                 @foreach(DB::table('places')->get() as $r)
-                <div style="margin-bottom: 20px;" onclick="selectplace({{$r->id}})" class="col-md-3 allbuttons place{{ $r->countries }}">
+                <div onclick="selectplace({{$r->id}})" class="mb-3 col-md-3 allbuttons place{{ $r->countries }}">
                 <div  data-toggle="tooltip" title="{{$r->name}}" class="form-control btn btn-primary place placeid{{$r->id}} @if($placesselected->where('places' , $r->id)->count() > 0) placeactive @endif">
                     {{ Str::limit($r->name, 15) }}
                 </div>

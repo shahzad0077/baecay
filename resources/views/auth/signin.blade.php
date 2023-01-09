@@ -13,6 +13,8 @@
 <meta property="og:locale" content="it_IT">
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!-- <div id="preloader"></div> -->
 <div id="wrapper" class="wrapper overflow-hidden">
     <div class="login-page-wrap">
@@ -31,6 +33,7 @@
                         </li>
                     </ul>
                     <div class="tab-content">
+                        
                         <div class="tab-pane login-tab fade show active" id="login-tab" role="tabpanel">
                             <h3 class="item-title">Sign Into Your Account</h3>
                             @if(session()->has('activeerror'))
@@ -47,13 +50,14 @@
                                     <span>Or</span>
                                 </div>
                             </div>
-                            @if(session()->has('error'))
-                                <div style="text-align: center;color: red;" id="result">{{ session()->get('error') }}</div>
-                             @endif
+                            
 
                              
-                            <form action="{{ route('user.login') }}" method="POST" id="form">
+                            <form id="loginform" action="{{ route('user.login') }}" method="POST" id="form">
                                 @csrf
+                                <div class="mt-2 mb-3 alert alert-danger print-error-msg-login" style="max-width: 70rem; margin: auto;display:none; color: #a94442;background-color: #f2dede;border-color: #ebccd1;">
+                                    <ul style="text-transform:capitalize;"></ul>
+                                </div>
                                 <div class="form-group">
                                     <input id="email" autocomplete="off" value="@if(session()->has('email')){{ session()->get('email') }}  @endif" type="text" class="form-control" name="email" placeholder="Your E-mail">
                                     @if($errors->has('email'))
@@ -66,6 +70,7 @@
                                         <div style="color: red">{{ $errors->first('password') }}</div>
                                     @endif
                                 </div>
+
                                 <div class="form-group reset-password">
                                     <a href="{{url('forgot-password')}}">* Reset Password</a>
                                 </div>
@@ -76,7 +81,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" name="login-btn" class="submit-btn" value="Login">
+                                    <button id="submit-button-login" type="submit" name="login-btn" class="submit-btn" >Login To Account <i class="fa fa-arrow-right icon ml-1"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -96,4 +101,55 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('#loginform').on('submit',(function(e) {
+    $('#submit-button-login').html('<i style="font-size:22px;" class="fa fa-spin fa-spinner"></i>');
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+        type:'POST',
+        url: $(this).attr('action'),
+        data:formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        success: function(data){
+         if($.isEmptyObject(data.error)){
+            console.log(data)
+            if(data == 1)
+            {
+                var value = 'Your Account is Banned Due to Some Reasons. If you want to Reopen your Account Please';
+                $(".print-error-msg-login").find("ul").html('');
+                $(".print-error-msg-login").css('display','block');
+                $(".print-error-msg-login").find("ul").append('<li>'+value+' <a href="{{ url("contactus") }}">Contact US</a></li>');
+                $('#submit-button-login').html('Login To Account <i class="fa fa-arrow-right icon ml-1"></i>');
+            }
+            if(data == 2)
+            {
+                location.reload();
+            }
+            if(data == 3)
+            {
+                var value = 'Email or Password is Wrong';
+                $(".print-error-msg-login").find("ul").html('');
+                $(".print-error-msg-login").css('display','block');
+                $(".print-error-msg-login").find("ul").append('<li>'+value+'</li>');
+                $('#submit-button-login').html('Login To Account <i class="la la-arrow-right icon ml-1"></i>');
+            }
+        }else{
+            $('#submit-button-login').html('Login To Account <i class="fa fa-arrow-right icon ml-1"></i>');
+            printErrorMsglogin(data.error);
+        }
+            
+        }
+    });
+}));
+function printErrorMsglogin (msg) {
+    $(".print-error-msg-login").find("ul").html('');
+    $(".print-error-msg-login").css('display','block');
+    $.each( msg, function( key, value ) {
+        $(".print-error-msg-login").find("ul").append('<li>'+value+'</li>');
+    });
+}
+</script>
 @endsection

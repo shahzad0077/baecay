@@ -29,7 +29,7 @@
             <li>
                 <a href="{{url('admin/new-users')}}">New Requests @if(DB::table('users')->where('active' , 1)->where('user_type' , 'customer')->where('new' , 1)->where('steps' , 6)->where('approve_status' , 'notapproved')->count() > 0)
 
-                 <span class="badge badge-info badge-pill float-right" style=" margin-right: 25px; ">{{ DB::table('users')->where('steps' , 6)->where('active' , 1)->where('user_type' , 'customer')->where('approve_status' , 'notapproved')->count() }}</span>
+                 <span class="badge badge-info badge-pill float-right" style=" margin-right: 25px; ">{{ DB::table('users')->where('steps' , 6)->where('new' , 1)->where('active' , 1)->where('user_type' , 'customer')->where('approve_status' , 'notapproved')->count() }}</span>
              @endif</a>
             </li>
             <li>

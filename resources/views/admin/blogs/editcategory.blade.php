@@ -15,7 +15,7 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Blog</li>
+                        <li class="breadcrumb-item"><a href="{{url('admin/blog-categories')}}">Blog Categories</a></li>
                         <li class="breadcrumb-item active">Edit Blog Category</li>
                     </ol>
                 </div>
@@ -50,6 +50,17 @@
                             <div class="valid-feedback">
                                 Looks good!
                             </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="validationCustom03">Main Image</label>
+                            <input  style="height: 44px;" type="file" class="form-control" name="image" id="validationCustom09"
+                                 >
+                            <div class="invalid-feedback">
+                                Please attach image file.
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <img style="width:120px;" class="img-thumbanil" src="{{ url('public/images') }}/{{ $data->image }}">
                         </div>
                         <div class="form-group mb-2">
                         <input type="radio" @if($data->visible_status == 'Published') checked @endif value="Published" name="visible_status" id="active">

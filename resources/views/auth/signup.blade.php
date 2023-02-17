@@ -15,7 +15,7 @@
     <div class="content-wrap">
         <div class="login-content">
             <div class="item-logo">
-                <a href="{{ url('') }}"><img src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('header_logo') }}" alt="logo" width="220px"></a>
+                <a href="{{ url('') }}"><img src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('footer_logo') }}" alt="logo" width="220px"></a>
             </div>
             <div class="login-form-wrap">
                 <ul class="nav nav-tabs" role="tablist">

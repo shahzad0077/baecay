@@ -25,6 +25,7 @@
         </div>
     </div>
     @include('admin.alerts')
+    
 <form enctype="multipart/form-data" method="POST" action="{{ url('createblog') }}" class="needs-validation" novalidate>
         {{ csrf_field() }}
     <div class="row">
@@ -35,8 +36,11 @@
                 </div>
                 <div class="card-body">
                         <div class="form-group">
+                            <div class="alert alert-danger categoryalert">
+                                Please Select Category Before Start Uploading Blog
+                            </div>
                             <label>Select Category</label>
-                            <select required class="form-control" name="cat_id">
+                            <select onchange="categoryval(this.value)" required class="form-control" name="cat_id">
                                 <option value="">Select Category</option>
                                 @foreach(DB::table('blogcategories')->where('delete_status' , 'Active')->get() as $r)
                                 <option value="{{ $r->id }}">{{ $r->name }}</option>
@@ -98,7 +102,20 @@
 <script src="{{ asset('admin/assets/js/vendor/summernote-bs4.min.js')}}"></script>
   <script src="{{ asset('admin/assets/js/pages/demo.summernote.js')}}"></script>
 <script type="text/javascript">
-    function createslug(Text)
+function categoryval(id) {
+    if(id == '')
+    {
+        $('.categoryalert').show();
+        $('#submitbutton').attr('disabled' , true)
+    }else{
+        $('.categoryalert').hide();
+        $('#submitbutton').attr('disabled' , false)
+    }
+}
+$( document ).ready(function() {
+    $('#submitbutton').attr('disabled' , true)
+});
+function createslug(Text)
 {
     $('#slug').val(convertToSlug(Text));    
 }

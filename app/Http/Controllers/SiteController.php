@@ -142,9 +142,9 @@ class SiteController extends Controller
         }else{
             $url = url('');
             session()->put('redirecturl', $this->currenturl());
-            return view('frontend.homepage.index');
+            $blogs = DB::table('blogs')->where('delete_status' , 'Active')->where('visible_status' , 'Published')->limit(3)->get();
+            return view('frontend.homepage.index')->with(array('blogs'=>$blogs));
         }
-        
     }
 
 
@@ -156,6 +156,8 @@ class SiteController extends Controller
             if($isadmin == 1)
             {
                 return redirect()->route('admin.dashboard');
+            }else{
+                return redirect()->route('userprofile');
             }
         }else{
             return view('auth.adminlogin');

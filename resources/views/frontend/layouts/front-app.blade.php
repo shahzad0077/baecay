@@ -37,6 +37,20 @@
       @include('includes.front-sidebar')
 
         <div class="page-content">
+          @if(DB::table('quiz_taken_users')->where('user_id' , Auth::user()->id)->where('status' , '!=' , 'done')->count() == 0)
+
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="alert alert-danger">Your Quiz is Pending <a href="{{ url('quiz') }}">Go To Quiz</a></div>
+                  </div>
+              </div>
+          </div>
+
+          @endif
+
+
+
           @if(Auth::user()->approve_status == 'notapproved')
           <div class="container">
               <div class="row">

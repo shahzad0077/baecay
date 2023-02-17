@@ -60,7 +60,7 @@
                         </div>
                         @else
                         <div style="text-align: right;color: #f08089;" class="media-body">
-                            <i data-toggle="tooltip" title="You Can't Send Invitation for Date With {{ $data->name }} in {{ $r->name }} because you are not Friends." class="icofont-info"></i>
+                            <i data-toggle="tooltip" title="To go on a date with {{ $data->name }}, send him a friend request." class="icofont-info"></i>
                         </div>
                         @endif
                         @endif

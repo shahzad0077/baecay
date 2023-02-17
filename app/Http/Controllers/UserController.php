@@ -87,7 +87,8 @@ class UserController extends Controller
             "selectedplaces.places",
             "selectedplaces.created_at",
             "places.name",
-            "places.image",                 
+            "places.image",
+            "places.id as place_id",                 
                         )
             ->leftJoin('places', 'selectedplaces.places', '=', 'places.id')
             ->where('selectedplaces.user_id' , Auth::user()->id)
@@ -239,16 +240,28 @@ class UserController extends Controller
 
     public function addgalleryphoto(Request $request)
     {
-
-
         $image =  Cmf::sendimagetodirectory($request->profileimage);
-        Cmf::save_media_image($image  , 'cover' , Auth::user()->id);
+        Cmf::save_media_image($image  , 'gallary' , Auth::user()->id);
+
+        $user = user::find(Auth::user()->id);
+        $getprevious = $user->imagesupload;
+        $user->imagesupload = $getprevious+1;
+        $user->save();
+
         return redirect()->back()->with('message', 'Gallery Image Added Successfully');
     }
     public function deleteallery($id)
     {
+        $image = DB::Table('mediaimages')->where('id' , $id)->first();
+        if($image->type == 'gallary')
+        {
+            $user = user::find(Auth::user()->id);
+            $getprevious = $user->imagesupload;
+            $user->imagesupload = $getprevious-1;
+            $user->save();
+        }
         DB::Table('mediaimages')->where('id' , $id)->delete();
-        return redirect()->back()->with('message', 'Deleted Successfully');
+        return redirect()->back()->with('message', 'Gallary Image Deleted Successfully');
     }
     public function removeplace($id)
     {

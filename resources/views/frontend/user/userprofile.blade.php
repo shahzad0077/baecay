@@ -171,7 +171,7 @@
                     <li>
                         <div class="user-group-photo">
                             <a href="{{ asset('public/images') }}/{{ $r->images }}" class="popup-zoom">
-                                <img src="{{ asset('public/images') }}/{{ $r->images }}" alt="{{ $data->name }}">
+                                <img class="img-thumbnail" src="{{ asset('public/images') }}/{{ $r->images }}" alt="{{ $data->name }}">
                             </a>
                         </div>
                     </li>

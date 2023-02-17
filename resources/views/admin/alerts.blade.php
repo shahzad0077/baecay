@@ -1,28 +1,38 @@
 @if(session()->has('message'))
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+<style type="text/css">
+  .toastr-container ul li{
+    width: 100% !important;
+  }
+</style>
+<link rel="stylesheet" href="{{ url('public/front/toaster/css/toastr.min.css?v1.0') }}">
+<script src="{{ url('public/front/toaster/js/toastr.min.js?v1.0') }}"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: '{{ session()->get('message') }}',
-            showConfirmButton: false,
-            timer: 3500
-          })
+      $(function () {
+          $.toastr.config({
+            time: 5000
+          });
+          $.toastr.success('{{ session()->get('message') }}', {position: 'top-right'});
+        })
     });
 </script>
 @endif 
 @if(session()->has('warning'))
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+<style type="text/css">
+  .toastr-container ul li{
+    width: 100% !important;
+  }
+</style>
+<link rel="stylesheet" href="{{ url('public/front/toaster/css/toastr.min.css?v1.0') }}">
+<script src="{{ url('public/front/toaster/js/toastr.min.js?v1.0') }}"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
-          Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            title: '{{ session()->get('warning') }}',
-            showConfirmButton: false,
-            timer: 3500
-          })
+      $(function () {
+          $.toastr.config({
+            time: 5000
+          });
+          $.toastr.warning('{{ session()->get('warning') }}', {position: 'top-right'});
+        })
     });
 </script>
 @endif

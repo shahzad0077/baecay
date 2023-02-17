@@ -56,12 +56,13 @@
                                 <td>${{$r->price}}</td>
                                 
                                 <td>
+
                                     @if($r->status == 1)
-                                    Active
+                                   <span class="badge badge-success" style="font-size:18px; text-transform: capitalize;"> Active </span>
                                     @else
-                                    In Active
+                                    <span class="badge badge-danger" style="font-size:18px; text-transform: capitalize;"> In Active </span>
                                     @endif
-                                    </td>
+                                </td>
                                     <td>{{ Cmf::date_format($r->created_at) }}</td>
                                 <td style="text-align: center;">
 

@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="temp-logo">
-                        <a href="{{ url('') }}"><img width="140px" src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('header_logo') }}" alt="Logo"></a>
+                        <a href="{{ url('') }}"><img width="140px" src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('footer_logo') }}" alt="Logo"></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7 col-sm-7 col-8 d-flex justify-content-xl-start justify-content-center">

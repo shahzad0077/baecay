@@ -47,7 +47,7 @@
                             <!-- Logo -->
                             <div class="card-header pt-4 pb-4 text-center bg-white">
                                 <a href="{{ url('') }}">
-                                    <span><img src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('header_logo') }}" alt="" height="40"></span>
+                                    <span><img src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('footer_logo') }}" alt="" height="40"></span>
                                 </a>
                             </div>
 

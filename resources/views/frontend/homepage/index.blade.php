@@ -398,7 +398,7 @@
             </div>
         </div>
         <div class="row">
-            @foreach(DB::table('blogs')->where('delete_status' , 'Active')->orderby('id' , 'desc')->limit(3)->get() as $r)
+            @foreach($blogs as $r)
             <div class="col-lg-4 col-md-6">
                     <div class="block-box user-blog">
                         <div class="blog-img">

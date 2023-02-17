@@ -130,6 +130,7 @@
                                 </div>
                             </div>
                             @endif
+
                             @if($r->type == 'textarea')
                             <div class="form-group">
                                 <label>{{ $r->name }}</label>
@@ -155,6 +156,28 @@
                                          value="{{ $c->name }}">{{ $c->name }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            @endif
+
+
+                            @if($r->type == 'checkbox')
+                            <style type="text/css">
+                                .form-group input {
+                                    height: unset;
+                                }
+                            </style>
+                            <div style="margin-bottom: 15px;"  class="col-md-12">
+                                <div class="form-group">
+                                    <label>{{ $r->name }}</label>
+                                    <div class="row">
+                                        @foreach(DB::table('signupfieldschilds')->where('signup_parent' , $r->id)->get() as $c)
+                                        <div style="display: flex;" class="col-md-6">
+                                            <input @if(DB::table('userfields')->where('signup_parent' , $r->id)->where('user_id' , $user_id)->get()->first()->value == $c->name) checked @endif value="{{ $c->name }}" id="checkbox{{ $c->id }}" type="checkbox" name="{{ $r->id }}">
+                                            <label for="checkbox{{ $c->id }}" style="padding-left: 10px;margin-top: 17px;"> {{ $c->name }} </label>
+                                        </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                             @endif

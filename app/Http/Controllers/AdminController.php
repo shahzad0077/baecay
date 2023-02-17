@@ -66,6 +66,17 @@ class AdminController extends Controller
         }
         
     }
+    public function checkorderofquiz($id)
+    {
+        $check = quizes::where('order' , $id)->count();
+        return $check;
+    }
+    public function deletequesquestion($id)
+    {
+        quizefields::where('quiz_parent' , $id)->delete();
+        quizes::where('id' , $id)->delete();
+        return redirect()->back()->with('message', 'Quiz Question Deleted Successfully');
+    }
     public function newusers()
     {
         $users = user::where('delete_status'  , 'active')->get();
@@ -872,11 +883,23 @@ class AdminController extends Controller
     public function blogcategories()
     {
         $data = blogcategories::where('delete_status' ,'Active')->get();
-        return view('admin.blogs.categories')->with(array('data'=>$data));
+        return view('admin.blogs.categories')->with(array('data'=>$data,'status'=>'all'));
+    }
+    public function blogcategoriesbystatus($id)
+    {
+        $data = blogcategories::where('delete_status' ,$id)->get();
+        return view('admin.blogs.categories')->with(array('data'=>$data,'status'=>'trash'));
     }
     public function deleteblogcategory($id)
     {
-        blogs::where('cat_id' , $id)->update(['delete_status'=>'delete']);
+        blogs::where('cat_id' , $id)->update(['delete_status'=>'trash']);
+        $data = array('delete_status'=>'trash');
+        blogcategories::where('id' ,$id)->update($data);
+        return redirect()->back()->with('message', 'Blog Category Move To Trash');
+    }
+    public function deleteblogcategorypermanently($id)
+    {
+        blogs::where('cat_id' , $id)->update(['delete_status'=>'Delete']);
         $data = array('delete_status'=>'Delete');
         blogcategories::where('id' ,$id)->update($data);
         return redirect()->back()->with('message', 'Blog Category Deleted Successfully');
@@ -894,6 +917,7 @@ class AdminController extends Controller
         $saveblog = new blogcategories;
         $saveblog->name = $request->name;
         $saveblog->slug = $request->slug;
+        $saveblog->image = Cmf::sendimagetodirectory($request->image);
         $saveblog->visible_status = 'Published';
         $saveblog->delete_status = 'Active';
         $saveblog->save();
@@ -905,6 +929,10 @@ class AdminController extends Controller
         $saveblog = blogcategories::find($request->id);
         $saveblog->name = $request->name;
         $saveblog->slug = $request->slug;
+        if($request->image)
+        {
+            $saveblog->image = Cmf::sendimagetodirectory($request->image);
+        }
         $saveblog->visible_status = $request->visible_status;
         $saveblog->delete_status = 'Active';
         $saveblog->save();
@@ -921,9 +949,8 @@ class AdminController extends Controller
         $saveblog->name = $request->name;
         $saveblog->url = $request->slug;
         $saveblog->blog = $request->content;
-        $saveblog->visible_status = $request->visible_status;
-        $saveblog->delete_status = 'Active';
         $saveblog->visible_status = 'Published';
+        $saveblog->delete_status = 'Active';
         $saveblog->cat_id = $request->cat_id;
         $saveblog->image = Cmf::sendimagetodirectory($request->image);
         $saveblog->save();

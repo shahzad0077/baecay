@@ -412,12 +412,19 @@ class AuthUserController extends Controller
         ]);
         if(!empty($payement->id))
         {
-            $user = user::find(session()->get('user_id_temp'));
-            $user->selectplan = $request->planid;
-            $user->zipcode = $request->zipcode;
-            $user->address = $request->address;
-            $user->steps = 3;
-            $user->save();
+            if(Auth::check())
+            {
+                $user = user::find(Auth::user()->id);
+                $user->selectplan = $request->planid;
+                $user->save();
+            }else{
+                $user = user::find(session()->get('user_id_temp'));
+                $user->selectplan = $request->planid;
+                $user->zipcode = $request->zipcode;
+                $user->address = $request->address;
+                $user->steps = 3;
+                $user->save();
+            }
             $payments = new payments();
             $payments->currency = 'usd';
             $payments->charge_id = $payement->id;
@@ -426,19 +433,36 @@ class AuthUserController extends Controller
             $payments->amount = $payement->amount;
             $payments->order_id = $plan->id;
             $payments->status = $payement->status;
-            $payments->customer_id = session()->get('user_id_temp');
+            if(Auth::check())
+            {
+                $payments->customer_id = Auth::user()->id;
+            }else{
+                $payments->customer_id = session()->get('user_id_temp');
+            }
             $payments->save();
             $plandata = DB::table('subscriptionplans')->where('id' , $request->planid)->get()->first();
             $subject = 'Welcome To '.Cmf::get_store_value('site_name').'| Invoice for Purchasing Plan';
-            Mail::send('frontend.email.invoice', ['name' => $user->name,'planname' => $plandata->name,'price' => $plandata->price,'places_allowed' => $plandata->places_allowed], function($message) use($user , $subject){
-                  $message->to($user->email);
-                  $message->subject($subject);
-            });
+            // Mail::send('frontend.email.invoice', ['name' => $user->name,'planname' => $plandata->name,'price' => $plandata->price,'places_allowed' => $plandata->places_allowed], function($message) use($user , $subject){
+            //       $message->to($user->email);
+            //       $message->subject($subject);
+            // });
             $plan = new subscribedplans();
-            $plan->user_id = session()->get('user_id_temp');
+            if(Auth::check())
+            {
+                $plan->user_id = Auth::user()->id;
+            }else{
+                $plan->user_id = session()->get('user_id_temp'); 
+            }
             $plan->plan_id = $request->planid;
             $plan->save();
-            return redirect()->route('user.stepfour');
+
+            if(Auth::check())
+            {
+                return redirect()->back()->with('message', 'Payemnt Successfully Processed');
+            }else{
+                return redirect()->route('user.stepfour');
+            }
+            
         }
         else
         {

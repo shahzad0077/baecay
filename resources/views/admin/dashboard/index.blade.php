@@ -70,67 +70,7 @@
         <!-- end row-->
 
 
-        <div class="row">
-
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        
-                        <h4 class="header-title mb-3">Recent User Requests</h4>
-
-
-                        <div class="table-responsive">
-                            <table class="table dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone Number</th>
-                                        <th>Dated</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            
-                                @if($data->where('user_type' , 'customer')->where('approve_status' , 'notapproved')->count() > 0)
-                                <tbody>
-                                    @foreach($data->where('user_type' , 'customer')->where('approve_status' , 'notapproved') as $r)
-                                    <tr>
-                                        <td><a href="{{url('/admin/user/viewuserrequest')}}/{{ $r->id }}">{{ $r->name }}</a> </td>
-                                        <th>{{ $r->email }}</th>
-                                        <td>{{ $r->phonenumber }}</td>
-                                        <td>{{ Cmf::date_format($r->created_at) }}</td>
-                                        <td>
-                                           <a href="{{url('/admin/user/viewuserrequest')}}/{{ $r->id }}"> <button class="btn-sm btn btn-primary">View Request</button></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    
-
-                                </tbody>
-                                @else
-
-                                <tr>
-                                    <td></td>
-                                    <th></th>
-                                    <td></td>
-                                    <td>No Any User Requests</td>
-                                    <td></td>
-                                    <td>
-                                        
-                                    </td>
-                                </tr>
-
-                                
-
-
-                                @endif
-                            </table> 
-                        </div> <!-- end table-responsive-->
-
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
-        </div>
+    
         <!-- end row-->
     </div> <!-- End Content -->
 

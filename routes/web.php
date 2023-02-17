@@ -224,7 +224,10 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.files.reviews.all');
     });
     Route::get('blog-categories', [AdminController::class, 'blogcategories']);
+    Route::get('blog-categories/{id}', [AdminController::class, 'blogcategoriesbystatus']);
     Route::get('/deleteblogcategory/{id}', [AdminController::class, 'deleteblogcategory']);
+    Route::get('/deleteblogcategorypermanently/{id}', [AdminController::class, 'deleteblogcategorypermanently']);
+    
     Route::POST('/socialmedia', [AdminController::class, 'socialmedia']);
     Route::get('/dashboard', [AdminController::class, 'admindashboard'])->name('admin.dashboard');
     Route::get('/notifications', [AdminController::class, 'notifications']);
@@ -279,6 +282,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('edit/{id}', [AdminController::class, 'editcountries']);
         Route::POST('create', [AdminController::class, 'createquiz']);
         Route::POST('update', [AdminController::class, 'updatecountry']);
+        Route::get('checkorderofquiz/{id}', [AdminController::class, 'checkorderofquiz']);
+        Route::get('deletequesquestion/{id}', [AdminController::class, 'deletequesquestion']);
+        
     });
 
 

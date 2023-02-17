@@ -1,5 +1,6 @@
 @extends('frontend.layouts.front-app')
 @section('content')
+@include('admin.alerts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
 <style type="text/css">
     .hide{
@@ -29,6 +30,7 @@
                                         @csrf
                                         
                                         <input type="hidden" value="{{ $plan->id }}" name="planid">
+                                        <input type="hidden" value="upgradeplan" name="page">
                                         <div class="form-group">
                                           <label >Card Number</label> 
                                           <input autocomplete='off' id="cc" class='form-control card-number' size='20' type='text'>
@@ -83,5 +85,5 @@
     </div>
 </div>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<script type="text/javascript" src="{{ asset('front/assets/js/checkout.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/front/assets/js/checkout.js') }}"></script>
 @endsection

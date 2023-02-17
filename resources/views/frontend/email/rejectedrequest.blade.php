@@ -9,13 +9,15 @@
     </td>
 </tr>
 <tr>
+    <style type="text/css">
+        p{
+            color: white !important;
+        }
+    </style>
     <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-
         <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:left;color:white;">
-
             {!! $reason !!}
         </div>
-
     </td>
 </tr>
 @include('frontend.email.footer')                       

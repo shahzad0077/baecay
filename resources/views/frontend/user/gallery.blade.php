@@ -23,6 +23,7 @@
         animation-duration: .3s;
     }
     .user-group-photo {
+        border-radius: 10px;
         height: 300px;
         display: -webkit-box;
         display: -webkit-flex;
@@ -35,7 +36,7 @@
         flex-direction: column;
         margin-top: 15px;
         margin-bottom: 15px;
-        border: 1px solid #ddd;
+        border: 1px solid #e8636f;
     }
 </style>
 <div class="container">
@@ -62,9 +63,18 @@
     </div>
     @if(Auth::user()->id == $data->id)
     <div class="row">
+
+        @if(Auth::user()->uploaded_photos >= DB::table('subscriptionplans')->where('id' , Auth::user()->selectplan)->first()->images_allowed)
+        <div class="col-md-12">
+            <div class="alert alert-danger">You Have Corsed the Limit of images Upload for Your Selected Plan. For Upgrade your Plan Visit This Link <a href="{{ url('profile/settings/subscribe') }}">Click Here</a></div>
+        </div>
+        
+
+        @else
         <div class="col-md-12 text-right">
             <button data-toggle="modal" data-target="#addnewphoto" class="btn btn-primary">Add Photo</button>
         </div>
+        @endif
     </div>
     <!-- Modal -->
     <div id="addnewphoto" class="modal fade" role="dialog">
@@ -72,11 +82,10 @@
 
         <!-- Modal content-->
         <div class="modal-content">
-
             <div class="modal-body">
                 <form enctype="multipart/form-data" id="regForm" method="POST" action="{{ url('profile/addgalleryphoto') }}">
                  @csrf
-                  <label>Add New Photo</label>
+                  <label>Add New Gallary Photo</label>
                   <div class="drop-zone">
                     <span class="drop-zone__prompt">Drop file here or click to upload</span>
                     <input accept="image/png, image/jpg, image/jpeg" type="file" name="profileimage" class="drop-zone__input">
@@ -103,21 +112,33 @@
         <div class="col-lg-3 col-md-4 col-6">
             <div class="user-group-photo">
                 @if(Auth::user()->id == $data->id)
+                <div style="background-color: #e8636f;border-top-left-radius: 10px;border-top-right-radius: 10px;">
                 <div class="row">
-                    <div class="col-md-12 text-right">
-                       <a href="{{ url('profile/gallery/delete') }}/{{$r->id}}"> <i class="icofont-trash"></i></a>
+                    <div class="col-md-2 text-left"> 
+                        <a style="color:black" class="icofont-trash" href="{{ url('profile/gallery/delete') }}/{{$r->id}}"></a>
                     </div>
+                    <div class="col-md-9 text-right">
+                        @if($r->type == 'profileimage')
+                        <span style="color:black">Profile Image</span>
+                        @endif
+                        @if($r->type == 'cover')
+                        <span style="color:black">Cover Image</span>
+                        @endif
+                        @if($r->type == 'gallary')
+                        <span style="color:black">Gallary Image</span>
+                        @endif
+                    </div>
+                </div>
                 </div>
                 @endif
                 <a href="{{ asset('public/images') }}/{{ $r->images }}" class="popup-zoom">
-                    <img src="{{ asset('public/images') }}/{{ $r->images }}" alt="Gallery">
+                    <img class="img-thumbnail" src="{{ asset('public/images') }}/{{ $r->images }}" alt="Gallery">
                 </a>
             </div>
         </div>
         @endforeach
     </div>
 </div>
-
 <script type="text/javascript">
     document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
         const dropZoneElement = inputElement.closest(".drop-zone");

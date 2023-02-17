@@ -14,7 +14,7 @@
     <div class="content-wrap">
         <div style="width:600px;" class="login-content">
             <div class="item-logo">
-                <a href="{{ url('') }}"><img src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('header_logo') }}" alt="logo" width="220px"></a>
+                <a href="{{ url('') }}"><img src="{{ asset('public/images/') }}/{{ Cmf::get_store_value('footer_logo') }}" alt="logo" width="220px"></a>
             </div>
             <div class="login-form-wrap">
                 <ul class="nav nav-tabs" role="tablist">
@@ -147,7 +147,7 @@
                                     <div class="row">
                                         @foreach(DB::table('signupfieldschilds')->where('signup_parent' , $r->id)->get() as $c)
                                         <div style="display: flex;" class="col-md-6">
-                                            <input id="checkbox{{ $c->id }}" type="checkbox" name="{{ $r->id }}" @if($r->isrequired == 'yes') required @endif>
+                                            <input value="{{ $c->name }}" id="checkbox{{ $c->id }}" type="checkbox" name="{{ $r->id }}">
                                             <label for="checkbox{{ $c->id }}" style="padding-left: 10px;margin-top: 17px;"> {{ $c->name }} </label>
                                         </div>
                                         @endforeach

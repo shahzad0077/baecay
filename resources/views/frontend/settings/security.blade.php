@@ -32,6 +32,7 @@
                 <h3 class="widget-title">Security Settings</h3>
             </div>
             <div class="user-info">
+                @include('admin.alerts')
                 @if(session()->has('errorsecurity'))
                     <div class="alert alert-danger">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

@@ -135,10 +135,18 @@ Route::post('details/save/Chat',[ChatController::class, 'saveMessage']);
 Route::get('/chat/{id}', [UserController::class, 'chatwithuser']);
 
 
+Route::get('searchheaderpeoples/{id}',[UserController::class, 'searchheaderpeoples']);
+
 
 
 Route::group(['prefix' => 'profile'], function () {
     Route::get('/', [UserController::class, 'dashboard'])->name('userprofile');
+    Route::get('friend/requests', [UserController::class, 'friendrequests']);
+    Route::get('friend/allfriends', [UserController::class, 'allfriends']);
+    Route::get('friend/sentrequests', [UserController::class, 'sentrequests']);
+
+    
+
     Route::get('/notifications', [UserController::class, 'notifications']);
     Route::get('/details/about', [UserController::class, 'about']);
     Route::get('/details/loveplaces', [UserController::class, 'loveplaces']);
@@ -387,6 +395,7 @@ Route::POST('/updateblogimage', [AdminController::class, 'updateblogimage']);
 Route::get('/admin/blog/addnewcategory', [AdminController::class, 'addnewcategory']);
 Route::POST('/createblogcategory', [AdminController::class, 'createblogcategory']);
 Route::get('/admin/blogcategory/edit/{id}', [AdminController::class, 'editblogcategory']);
+Route::get('/admin/blogcategory/restore/{id}', [AdminController::class, 'restoreblogcategory']);
 Route::POST('/updateblogcategory', [AdminController::class, 'updateblogcategory']);
 Route::get('/admin/blogs-coments', [AdminController::class, 'blogcoments']);
 Route::get('admin/deleteblogcoment/{id}', [AdminController::class, 'deleteblogcoment']);

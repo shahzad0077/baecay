@@ -1,3 +1,18 @@
+function searchheaderpeoples(id) {
+    if(id == '')
+    {
+        $('#myInputautocomplete-list').hide();
+    }else{
+        $('#myInputautocomplete-list').show();
+        $.ajax({
+            type: "GET",
+            url: app_url()+'/searchheaderpeoples/'+id,
+            success: function(resp) {
+                $('#myInputautocomplete-list').html(resp);
+            }
+        });
+    }
+}
 function app_url()
 {
 	return $('#app_url').val();

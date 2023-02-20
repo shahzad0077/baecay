@@ -27,6 +27,20 @@ class UserController extends Controller
     {
         $this->middleware('Userauthenticate');
     }
+    public function searchheaderpeoples($id)
+    {
+        $data = user::where('user_type' , 'customer')->whereNotIn('id', [Auth::user()->id])->where('active' , 1)->where('is_admin' , 0)->where('name','like', '%' .$id. '%' )->get();
+
+        if($data->count() > 0)
+        {
+            foreach ($data as $r) {
+                echo '<a style="width:100%;" href="'.url('profile').'/'.$r->username.'"><div>'.$r->name.'</div></a>';
+            }
+        }else{
+            echo '<span style=" padding-top: 50%; position: absolute; left: 30%; ">No User Found</span>';
+        }
+        
+    }
     public function sendNotification(Request $request)
     {
         $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
@@ -58,10 +72,32 @@ class UserController extends Controller
                
         $response = curl_exec($ch);
   
-        dd($response);
+
+        print_r($response);
+    }
+    public function friendrequests()
+    {
+        $data = Auth::user();
+        $user1 = User::find(Auth::user()->id);
+        $friendrequest = $user1->getFriendRequests();
+        return view('frontend.user.friendrequest')->with(array('data'=>$data,'friendrequest'=>$friendrequest));
+    }
+    public function allfriends()
+    {
+        $data = Auth::user();
+        $user1 = User::find(Auth::user()->id);
+        $friendrequest = $user1->getFriends();
+        return view('frontend.user.allfriends')->with(array('data'=>$data,'friendrequest'=>$friendrequest));
     }
 
-
+    public function sentrequests()
+    {
+        $data = Auth::user();
+        $user1 = User::find(Auth::user()->id);
+        $friendrequest = $user1->getPendingFriendships();
+        // print_r($friendrequest);exit;
+        return view('frontend.user.sentrequests')->with(array('data'=>$data,'friendrequest'=>$friendrequest));
+    }
     public function chatroom()
     {
         $id = Auth::user()->id;
@@ -93,6 +129,7 @@ class UserController extends Controller
             ->leftJoin('places', 'selectedplaces.places', '=', 'places.id')
             ->where('selectedplaces.user_id' , Auth::user()->id)
             ->get();
+            // print_r($placesselected);exit;
         return view('frontend.user.userprofile')->with(array('data'=>$data,'placesselected'=>$placesselected));
     }
     public function userprofile($id)
@@ -141,9 +178,7 @@ class UserController extends Controller
         $place = userplaces::find($id);
         $place->status = 'approved';
         $place->save();
-
         $placename = DB::table('places')->where('id' , $place->place_id)->get()->first();
-
         $notification = Auth::user()->name." Accepted your Invitation in ".$placename->name." For Date";
         $url = url("mydates");
         $name = Auth::user()->name;
@@ -156,10 +191,7 @@ class UserController extends Controller
         $place = userplaces::find($id);
         $place->status = 'rejected';
         $place->save();
-
         $placename = DB::table('places')->where('id' , $place->place_id)->get()->first();
-
-
         $notification = Auth::user()->name." Rejected your Invitation in ".$placename->name." For Date";
         $url = url("profile");
         $name = Auth::user()->name;
@@ -172,7 +204,7 @@ class UserController extends Controller
         $user1 = User::find(Auth::user()->id);
         $user2 = User::find($id);
         $user1->befriend($user2);
-        return redirect()->back()->with('message', 'Love Sended Successfully');
+        return redirect()->back()->with('message', 'Request Sended Successfully');
     }
     public function cancellove($id)
     {

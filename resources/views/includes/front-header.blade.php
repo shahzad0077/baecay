@@ -18,10 +18,13 @@
             <div class="nav-item header-control">
                 <div class="inline-item d-none d-md-block">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search here.......">
+                        <input onkeyup="searchheaderpeoples(this.value)" type="text" class="form-control" placeholder="Search here.......">
                         <div class="input-group-append">
                             <button class="submit-btn" type="button"><i class="icofont-search"></i></button>
                         </div>
+                    </div>
+                    <div id="myInputautocomplete-list" class="autocomplete-items">
+                       
                     </div>
                 </div>
                 <div class="inline-item d-flex align-items-center">
@@ -33,6 +36,9 @@
                         <div  class="dropdown-menu dropdown-menu-right">
                             <div class="item-heading">
                                 <h6 class="heading-title">Friend Requests</h6>
+                                <div class="heading-btn">
+                                    <a href="{{ url('profile/friend/allfriends') }}">My Friends</a>
+                                </div>
                             </div>
                             <div id="friendrequests" class="item-body">
                                 <div class="media">
@@ -40,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="item-footer">
-                                <a href="#" class="view-btn">View All Friend Request</a>
+                                <a href="{{ url('profile/friend/requests') }}" class="view-btn">View All Friend Request</a>
                             </div>
                         </div>
                     </div>
@@ -94,6 +100,7 @@
                             <ul class="admin-options">
                                 <li><a href="{{ url('profile') }}">My Profile</a></li>
                                 <li><a href="{{ url('profile/details/invitations') }}">Invitations</a></li>
+                                <li><a href="{{ url('profile/friend/allfriends') }}">My Friends</a></li>
                                 <li><a href="{{ url('profile/settings/subscribe') }}">Subscription Plans</a></li>
                                 <li><a href="{{ url('profile/settings/general') }}">General Settings</a></li>
                                 <li><a href="{{ url('profile/settings/security') }}">Security Settings</a></li>

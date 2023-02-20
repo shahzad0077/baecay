@@ -119,6 +119,22 @@
                         <input type="hidden" value="{{ $data->id }}" name="id">
                         <div class="card-body">
                             <div class="form-group">
+                                @php
+                                    $user = DB::table('users')->where('id' , $data->id)->first();
+                                    $plan = $user->selectplan;
+                                    $plan = DB::table('subscriptionplans')->where('id' , $plan)->first();
+                                @endphp
+                                <div class="alert alert-success">This User Select {{ $plan->name }} , $({{$plan->price}})</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Delete User Or Not</label>
+                                <select required class="form-control" name="deleteuserornot">
+                                    <option>Select Option</option>
+                                    <option value="delete">Delete This User</option>
+                                    <option value="notdelete">Not Delete</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Denied Reason</label>
                                 <textarea id="summernote-basic" rows="8" class="form-control" name="reason"></textarea>
                             </div>

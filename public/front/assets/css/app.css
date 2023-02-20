@@ -12489,3 +12489,37 @@ nav.template-main-menu > ul > li:hover ul.mega-menu {
 .chatbox-min .chat-partner-name, .chatbox-min .chat-group-name {
   padding: 0 0 0 75px;
 }
+
+.autocomplete-items {
+    display: none;
+    position: absolute;
+    border: 1px solid #404146;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    height: 400px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #242424;
+    overflow: auto;
+}
+
+.autocomplete-items div {
+    color: #DCDCDC;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #242424; 
+  border-bottom: 1px solid #404146; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #13151b; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}

@@ -75,8 +75,8 @@
 .breadcrumb.wizard li:first-child a {
     padding-left: 15px;
 }
-.breadcrumb.wizard li a:hover { background: #ffc107  ; }
-.breadcrumb.wizard li a:hover:after { border-left-color: #ffc107   !important; }
+.breadcrumb.wizard li a:hover { background: #13151B  ; }
+.breadcrumb.wizard li a:hover:after { border-left-color: #13151B   !important; }
 
 </style>
 <div class="container">
@@ -135,11 +135,11 @@
                                 <div class="profile-img">
                                     <a href="{{ url('profile') }}/{{ $r->username }}">
 
-                                    	@if($r->profileimage)
-					                    <img style="width: 98px;height: 98px;" src="{{ asset('public/images') }}/{{ $r->profileimage }}" alt="{{ $r->name }}">
-					                    @else
-					                    <img style="width: 98px;" src="{{ asset('front/media/profileavatar.png') }}">
-					                    @endif
+                                        @if($r->profileimage)
+                                        <img style="width: 98px;height: 98px;" src="{{ asset('public/images') }}/{{ $r->profileimage }}" alt="{{ $r->name }}">
+                                        @else
+                                        <img style="width: 98px;" src="{{ asset('public/front/media/profileavatar.png') }}">
+                                        @endif
 
                                     </a>
                                 </div>
@@ -148,18 +148,31 @@
                                 </div>
                                 
                             </div>
-                            <ul class="author-badge">
-                                <li><a href="user-profile.html" class="bg-salmon-gradient"><i class="icofont-google-plus"></i></a></li>
-                                <li><a href="user-profile.html" class="bg-amethyst-gradient"><i class="icofont-facebook"></i></a></li>
-                                <li><a href="user-profile.html" class="bg-sun-gradient"><i class="icofont-instagram"></i></a></li>
-                                <li><a href="user-profile.html" class="bg-jungle-gradient"><i class="icofont-twitter"></i></a></li>
-                            </ul>
                             <ul class="author-statistics">
                                 <li>
-                                    <a href="{{ url('profile') }}/{{ $r->username }}"><span class="item-number">4.5</span> <span class="item-text">Overall Ratings</span></a>
+                                    <a href="{{ url('profile') }}/{{ $r->username }}"><span class="item-number">
+
+                                        @php
+                                            $reviews = DB::table('peoplereviews')->where('user_id' , $r->id);
+                                        @endphp
+
+
+                                        @if($reviews->count() > 0)
+
+                                            
+
+                                            {{ $reviews->sum('rattings')/$reviews->count() }}
+
+                                        @else
+
+                                            Nan
+
+                                        @endif
+
+                                    </span> <span class="item-text">Overall Ratings</span></a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('profile') }}/{{ $r->username }}"><span class="item-number">12</span> <span class="item-text">Places Visiting</span></a>
+                                    <a href="{{ url('profile') }}/{{ $r->username }}"><span class="item-number">{{ DB::table('selectedplaces')->where('user_id' , $r->id)->count() }}</span> <span class="item-text">Loved Places</span></a>
                                 </li>
                                 
                             </ul>

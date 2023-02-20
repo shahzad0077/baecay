@@ -57,6 +57,40 @@
 			</a>
 		</li>
 		@endforeach
+		@else
+			@php
+				$oneurl = request()->segment(2);
+			@endphp
+
+			@if($oneurl)
+
+				@php
+					$user = DB::table('users')->where('username' , $oneurl)->first();
+
+				@endphp
+				<ui class="contacts">
+				   <li id="activechat">
+				      <a href="{{ url('chat') }}/{{ $user->username }}">
+				         <div class="d-flex bd-highlight">
+				            <div class="img_cont">
+				               @if($user->profileimage)
+					          <img style="height: 60px; width: 60px;" class="rounded-circle user_img"  src="{{ asset('public/images') }}/{{ $user->profileimage }}" alt="{{ $user->name }}">
+					           @elseif($user->profileimage_social)
+					          <img style="height: 60px; width: 60px;" class="rounded-circle user_img" src="{{ $user->profileimage_social }}">
+					          @else
+					          <img style="height: 60px; width: 60px;" class="rounded-circle user_img"  src="{{ asset('public/front/media/profileavatar.png') }}">
+	          				  @endif
+				            </div>
+				            <div class="user_info">
+				               <span>{{ $user->name }}</span>
+				            </div>
+				         </div>
+				      </a>
+				   </li>
+				</ui>
+			@else
+			<p style="text-align:center;margin-top: 50px;font-size: 22px;">No User For Chat</p>
+			@endif
 		@endif
 		</ui>
 	</div>

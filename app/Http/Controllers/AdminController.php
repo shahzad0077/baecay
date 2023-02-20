@@ -670,17 +670,27 @@ class AdminController extends Controller
         $vendor = user::find($request->id);
         $reason = $request->reason;
 
-        $deny = new deniedrequests();
-        $deny->user_id = $request->id;
-        $deny->reason = $request->reason;
-        $deny->status = 'deny';
-        $deny->save();
-        
-         Mail::send('frontend.email.rejectedrequest', ['email' => $vendor->email , 'name' => $vendor->name, 'reason' => $reason], function($message) use($vendor){
+        if($request->deleteuserornot == 'delete')
+        {
+            DB::table('users')->where('id' , $request->id)->delete();
+        }else{
+            $deny = new deniedrequests();
+            $deny->user_id = $request->id;
+            $deny->reason = $request->reason;
+            $deny->status = 'deny';
+            $deny->save();
+        }
+        Mail::send('frontend.email.rejectedrequest', ['email' => $vendor->email , 'name' => $vendor->name, 'reason' => $reason], function($message) use($vendor){
               $message->to($vendor->email);
-              $message->subject('Your User Request is Rejected');
-          });
-        return redirect()->back()->with('message', 'User Request Rejected Successfully');
+              $message->subject('Your request to join BAEECAY has been rejected');
+        });
+        if($request->deleteuserornot == 'delete')
+        {
+            $url = url('admin/new-users');
+            return Redirect::to($url);
+        }else{
+            return redirect()->back()->with('message', 'User Request Rejected Successfully');
+        }
     }
 
 
@@ -942,6 +952,12 @@ class AdminController extends Controller
     {
         $data = blogcategories::where('id' , $id)->get()->first();
         return view('admin.blogs.editcategory')->with(array('data'=>$data));
+    }
+    public function restoreblogcategory($id)
+    {
+        $data = array('delete_status'=>'Active');
+        blogcategories::where('id' ,$id)->update($data);
+        return redirect()->back()->with('message', 'Blog Category Move To Publish');
     }
     public function createblog(Request $request)
     {

@@ -31,8 +31,11 @@
     <div class="row h-100">
         @include('frontend.chat.sidebar')
         <div class="col-lg-8"> 
-            <div class="jumbotron">
-                <h1 style="text-align:center;    color: #9e9faf;">Please Select Group or Person Chat</h1>
+            <div class="card mb-sm-3 mb-md-0 contacts_card">
+                <div class="card-body contacts_body">
+                    <p style="text-align:center;margin-top: 50px;font-size: 22px;">Please Select Group or Person Chat</p>
+                </div>
+                <div class="card-footer"></div>
             </div>
          </div>
     </div>

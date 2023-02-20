@@ -8,7 +8,7 @@
 
 
 
-<div class="container">
+<!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <center>
@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
   
 <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js"></script>
 <script>
@@ -100,7 +100,7 @@
         new Notification(noteTitle, noteOptions);
     });
 </script>
-<!-- <div class="container">
+<div class="container">
     <div class="block-box user-about widget-comment">
         <div class="widget-heading">
             <h3 class="widget-title">All Notifications</h3>
@@ -120,5 +120,5 @@
     </div>
     </div>
     
-</div> -->
+</div>
 @endsection

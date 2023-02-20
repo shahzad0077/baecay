@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <br>
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Category Image</th>
@@ -57,7 +57,7 @@
                             @foreach($data as $r)
                             <tr>
                                 <td>
-                                    <img src="{{ url('public/images') }}/{{ $r->image }}" class="img-thumbnail" style="width:120px;">
+                                    <img src="{{ url('public/images') }}/{{ $r->image }}" class="img-thumbnail" style="width:100px;">
                                 </td>
                                 <td>{{ $r->name }}</td>
 
@@ -70,7 +70,9 @@
                                 </td>
                                 <td>{{ date('d M Y, h:s a ', strtotime($r->created_at)) }}</td>
                                 <td class="table-action text-center">
-
+                                    @if($status == 'trash')
+                                    <a href="{{url('admin/blogcategory/restore')}}/{{ $r->id }}" class="btn btn-primary btn-sm" title="Restore Category"> Restore </a>
+                                    @endif
                                     <a href="{{url('admin/blogcategory/edit')}}/{{ $r->id }}" class="action-icon" title="Edit Category"> <i class="mdi mdi-pencil"></i></a>
                                     @if($status == 'trash')
                                     <a onclick="deletefunctionpermanently({{ $r->id }})" href="javascript:void(0)" class="action-icon" title="Delte Category"> <i class="mdi mdi-delete"></i></a>

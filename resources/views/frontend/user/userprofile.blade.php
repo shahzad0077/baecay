@@ -189,13 +189,13 @@
                     @else
                     <div class="media">
                         <div class="item-img">
-                            <a href="javascript:void(0)">
+                            <a href="{{ url('place') }}/{{ $r->places }}">
                                 <img src="{{ asset('public/images') }}/{{ $r->image }}" alt="post">
                             </a>
                         </div>
                         <div class="media-body">
                             <div class="post-date">{{ Cmf::date_format($r->created_at) }} @if(Auth::user()->id == $data->id) <a style="color: #f08089; margin-left: 20px;" href="{{ url('profile/removeplace') }}/{{ $r->id }}"><i class="icofont-trash"></i></a> @endif</div>
-                            <h4 class="item-title"><a href="{{ url('place') }}/{{ $r->id }}">{{ $r->name }}</a></h4>
+                            <h4 class="item-title"><a href="{{ url('place') }}/{{ $r->places }}">{{ $r->name }}</a></h4>
                         </div>
                         @php
                             $user1 = App\Models\User::find(Auth::user()->id);
